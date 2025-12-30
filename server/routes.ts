@@ -47,7 +47,7 @@ async function seedDatabase() {
       description: "Known for its high pungency and bright red color. Ideal for spice extraction and oleoresin.",
       type: "Whole Dried",
       spiceLevel: "High",
-      image: "https://images.unsplash.com/photo-1590740925950-705a8ce6c61f?auto=format&fit=crop&q=80",
+      image: "/images/teja.webp",
       features: ["High Heat", "Glossy Finish", "Export Quality"]
     });
     await storage.createProduct({
@@ -55,7 +55,7 @@ async function seedDatabase() {
       description: "Famous for its deep red color and mild taste. Perfect for adding color to dishes without excessive heat.",
       type: "Whole Dried",
       spiceLevel: "Low",
-      image: "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&q=80",
+      image: "/images/kashmiri.webp",
       features: ["Vibrant Color", "Low Heat", "Premium Grade"]
     });
     await storage.createProduct({
@@ -63,7 +63,7 @@ async function seedDatabase() {
       description: "Characterized by its wrinkled skin and deep red color. Offers a unique flavor profile.",
       type: "Whole Dried",
       spiceLevel: "Medium",
-      image: "https://images.unsplash.com/photo-1588619478201-d70377c8e9b1?auto=format&fit=crop&q=80",
+      image: "/images/byadgi.jpg",
       features: ["Wrinkled Skin", "Rich Flavor", "Natural Color"]
     });
     await storage.createProduct({
@@ -71,7 +71,7 @@ async function seedDatabase() {
       description: "One of the most popular varieties. Hot and spicy with a distinct aroma.",
       type: "Whole Dried",
       spiceLevel: "High",
-      image: "https://images.unsplash.com/photo-1601648764658-ad77dd816370?auto=format&fit=crop&q=80",
+      image: "/images/guntur.jpg",
       features: ["Spicy", "Aromatic", "Traditional"]
     });
   }
