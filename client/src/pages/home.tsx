@@ -274,7 +274,11 @@ export default function Home() {
                </div>
                <div>
                  <h4 className="font-bold text-lg text-foreground mb-1">Email</h4>
-                 <p className="text-muted-foreground">info@kubertraders.com</p>
+                 <p className="text-muted-foreground">
+                   <a href={`mailto:${import.meta.env.VITE_COMPANY_EMAIL}`} className="hover:underline">
+                     {import.meta.env.VITE_COMPANY_EMAIL || 'kubertradersbediya@gmail.com'}
+                   </a>
+                 </p>
                </div>
              </div>
           </div>
