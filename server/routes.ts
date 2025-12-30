@@ -3,6 +3,54 @@ import type { Server } from "http";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
+import nodemailer from "nodemailer";
+
+// Email configuration
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "kubertradersbediya@gmail.com",
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+});
+
+async function sendInquiryEmail(inquiry: {
+  name: string;
+  phone: string;
+  message?: string;
+}): Promise<void> {
+  try {
+    const emailContent = `
+New Inquiry from Website
+
+Name: ${inquiry.name}
+Phone: ${inquiry.phone}
+Message: ${inquiry.message || "No message provided"}
+
+---
+This is an automated email from your Kuber Traders Bediya website.
+    `.trim();
+
+    await transporter.sendMail({
+      from: "kubertradersbediya@gmail.com",
+      to: "kubertradersbediya@gmail.com",
+      subject: `New Inquiry from ${inquiry.name}`,
+      text: emailContent,
+      html: `
+        <h2>New Inquiry from Website</h2>
+        <p><strong>Name:</strong> ${inquiry.name}</p>
+        <p><strong>Phone:</strong> ${inquiry.phone}</p>
+        <p><strong>Message:</strong></p>
+        <p>${(inquiry.message || "No message provided").replace(/\n/g, "<br>")}</p>
+        <hr>
+        <p><em>This is an automated email from your Kuber Traders Bediya website.</em></p>
+      `,
+    });
+  } catch (error) {
+    console.error("Failed to send email:", error);
+    // Don't throw - allow inquiry to be saved even if email fails
+  }
+}
 
 export async function registerRoutes(
   httpServer: Server,
@@ -25,6 +73,12 @@ export async function registerRoutes(
     try {
       const input = api.inquiries.create.input.parse(req.body);
       const inquiry = await storage.createInquiry(input);
+      
+      // Send email in background (don't wait for it)
+      sendInquiryEmail(input).catch((error) => {
+        console.error("Email sending error:", error);
+      });
+      
       res.status(201).json(inquiry);
     } catch (err) {
       if (err instanceof z.ZodError) {
